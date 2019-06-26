@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="game" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame"/>
+
+    <bean id="foyer" class="edu.missouriwestern.csmp.gg.base.Board">
+        <constructor-arg index="0">
+            <map>
+                <entry key="wall" value="#"/>
+                <entry key="door" value="@"/>
+                <entry key="spawn" value="*"/>
+                <entry key="floor" value=" "/>
+            </map>
+        </constructor-arg>
+        <constructor-arg index="1" ref="game"/>
+        <constructor-arg index="2" value="Foyer"/>
+        <constructor-arg index="3" value="
+#@#@#@#@#@#@#@#@#@#@#
+# # # # # # # # # # #
+#                   #
+#                   #
+#                   #
+#                   #
+#                   #
+#                   #
+#         *         #
+#####################
+"/>
+        <constructor-arg index="4">
+            <map>
+                <entry key="*">
+                    <map>
+                        <entry key="entering-entity-spawn" value="true"/>
+                    </map>
+                </entry>
+            </map>
+        </constructor-arg>
+        <constructor-arg index="5">
+            <map>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="2"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle1"/>
+                    </map>
+                </entry>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="4"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle2"/>
+                    </map>
+                </entry>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="6"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle3"/>
+                    </map>
+                </entry>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="8"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle4"/>
+                    </map>
+                </entry>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="10"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle5"/>
+                    </map>
+                </entry>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="12"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle6"/>
+                    </map>
+                </entry>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="14"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle7"/>
+                    </map>
+                </entry>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="16"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle8"/>
+                    </map>
+                </entry>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="18"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle9"/>
+                    </map>
+                </entry>
+                <entry>
+                    <key>
+                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
+                            <constructor-arg index="0" ref="foyer"/>
+                            <constructor-arg index="1" value="20"/>
+                            <constructor-arg index="2" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="puzzle10"/>
+                    </map>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+</beans>
