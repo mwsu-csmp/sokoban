@@ -3,7 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="game" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame"/>
+    <bean id="foyer-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+        <constructor-arg value="foyer-map.txt"/>
+    </bean>
+    <bean id="puzzle1-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+        <constructor-arg value="puzzle1-map.txt"/>
+    </bean>
 
     <bean id="foyer" class="edu.missouriwestern.csmp.gg.base.Board">
         <constructor-arg index="0">
@@ -16,18 +21,7 @@
         </constructor-arg>
         <constructor-arg index="1" ref="game"/>
         <constructor-arg index="2" value="Foyer"/>
-        <constructor-arg index="3" value="
-#@#@#@#@#@#@#@#@#@#@#
-# # # # # # # # # # #
-#                   #
-#                   #
-#                   #
-#                   #
-#                   #
-#                   #
-#         *         #
-#####################
-"/>
+        <constructor-arg index="3" ref="foyer-map"/>
         <constructor-arg index="4">
             <map>
                 <entry key="*">
@@ -184,15 +178,7 @@
         </constructor-arg>
         <constructor-arg index="1" ref="game"/>
         <constructor-arg index="2" value="Puzzle #1"/>
-        <constructor-arg index="3" value="
-#############
-#      #@#  #
-# #  #B#!# B#
-# #  # # #  #
-# #       XX#
-#*#   B B XX#
-#############
-"/>
+        <constructor-arg index="3" ref="puzzle1-map"/>
         <constructor-arg index="4">
             <map>
                 <entry key="*">
