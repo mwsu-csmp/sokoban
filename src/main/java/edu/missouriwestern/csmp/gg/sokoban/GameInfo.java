@@ -8,23 +8,19 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class GameInfo {
 
-
     @Autowired
     private Game game;
 
-    @GetMapping(value = "/board/{boardId}", produces = "text/plain; charset=UTF-8")
+    @GetMapping(value = "/map/{boardId}", produces = "text/plain; charset=UTF-8")
     @ResponseBody
     public String getBoardMap(@PathVariable("boardId") String boardId) {
         var board = game.getBoard(boardId);
-        return board.toString();
+        return board.getTileMap();
     }
 
-    /* TODO: make changes to board class to support additional info queries
     @GetMapping(value = "/board/{boardId}", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public String getBoardInfo(@PathVariable("boardId") String boardId) {
         return game.getBoard(boardId).toString();
     }
-
-     */
 }
