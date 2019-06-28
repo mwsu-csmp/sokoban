@@ -15,6 +15,7 @@
             <map>
                 <entry key="wall" value="#"/>
                 <entry key="door" value="@"/>
+                <entry key="guide-spawn" value="%"/>
                 <entry key="player-spawn" value="*"/>
                 <entry key="floor" value=" "/>
             </map>
