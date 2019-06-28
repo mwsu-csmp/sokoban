@@ -2,17 +2,16 @@ package edu.missouriwestern.csmp.gg.sokoban;
 
 import edu.missouriwestern.csmp.gg.base.Board;
 import edu.missouriwestern.csmp.gg.base.Game;
+import edu.missouriwestern.csmp.gg.base.events.GameStartEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -29,6 +28,8 @@ public class SokobanGame extends Game {
             this.addBoard(mapName, maps.get(mapName));
             logger.info("loading map " + mapName + ": \n" + maps.get(mapName));
         }
+        registerListener(new EventLogger());  // log all events
+        accept(new GameStartEvent(this));     // indicate game is starting
     }
 
     /** loads a text file resource as a string */
