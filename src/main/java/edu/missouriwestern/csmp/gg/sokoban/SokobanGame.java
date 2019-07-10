@@ -3,8 +3,6 @@ package edu.missouriwestern.csmp.gg.sokoban;
 import edu.missouriwestern.csmp.gg.base.Board;
 import edu.missouriwestern.csmp.gg.base.Game;
 import edu.missouriwestern.csmp.gg.base.events.GameStartEvent;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;

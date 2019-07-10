@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -34,14 +35,14 @@ public class ANSIGameServer {
             public void run() {
                 logger.info("Starting up ANSI terminal server");
                 while(true) {
-                    try {
-                        var client = new ANSIClient(server, socket.accept());
-                        logger.info("accepting incoming client connection");
-                        taskExecutor.execute(client);
-                        clients.add(client);
-                    } catch (IOException e) {
-                        logger.info("Error connecting client: " + e);
-                    }
+                    try{
+                        var clientSocket = socket.accept();
+                        taskExecutor.execute(() -> {
+                            try {server.processLogin(clientSocket);}
+                            catch(IOException e) { logger.info("failed to connect client"); }
+                        });
+                    } catch(IOException e) { logger.info("failed to connect client"); }
+                    logger.info("accepting incoming client connection");
                 }
             }
         });
@@ -52,4 +53,12 @@ public class ANSIGameServer {
     public void removeClient(ANSIClient client) {
         clients.remove(client);
     }
+
+    public void processLogin(Socket socket) throws IOException {
+        // TODO: manage login or login token
+        var client =  new ANSIClient(this, socket, "joey"); // TODO: remove / replace
+        clients.add(client);
+        taskExecutor.execute(client);
+    }
+
 }

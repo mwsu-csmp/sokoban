@@ -1,7 +1,6 @@
 package edu.missouriwestern.csmp.gg.sokoban;
 
 import edu.missouriwestern.csmp.gg.base.Game;
-import edu.missouriwestern.csmp.gg.base.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +30,7 @@ public class GameInfo {
                               @PathVariable("column") int column,
                               @PathVariable("row") int row) {
         var board = game.getBoard(boardId);
-        var tile = board.getTile(new Location(board, row, column));
+        var tile = board.getTile(row, column);
         return tile.toString();
     }
 

@@ -30,7 +30,7 @@ public class Guide extends Entity implements EventListener {
         var foyer = getGame().getBoard("foyer");
         var location = foyer.getTileStream()  // find location of guide spawn tile (should be exactly 1)
                 .filter(tile -> tile.getType().equals("guide-spawn"))
-                .findFirst().get().getLocation();
+                .findFirst().get();
         getGame().moveEntity(this, location);
     }
 
