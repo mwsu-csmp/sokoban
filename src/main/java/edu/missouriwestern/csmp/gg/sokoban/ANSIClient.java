@@ -1,9 +1,6 @@
 package edu.missouriwestern.csmp.gg.sokoban;
 
-import edu.missouriwestern.csmp.gg.base.Event;
-import edu.missouriwestern.csmp.gg.base.Game;
-import edu.missouriwestern.csmp.gg.base.Player;
-import edu.missouriwestern.csmp.gg.base.Tile;
+import edu.missouriwestern.csmp.gg.base.*;
 import edu.missouriwestern.csmp.gg.base.events.EntityMovedEvent;
 
 import java.io.IOException;
@@ -44,24 +41,20 @@ public class ANSIClient extends Player implements Runnable {
     public void accept(Event e) {
         if(e instanceof EntityMovedEvent) {
             var location = game.getEntityLocation(avatar);
+
+            // if the entity moved away from a tile...
             if(location != null && (location instanceof Tile)) {
-                var board = ((Tile) location).getBoard();
-                var props = e.getProperties();
-                if (props.containsKey("column")) {
-                    int row = Integer.parseInt(props.get("row"));
-                    int column = Integer.parseInt(props.get("column"));
-                    moveCursor(column, row);
-                    out.print(board.getTile(column,row).getProperties().get("character"));
-                    var ent = game.getEntity(Integer.parseInt(props.get("entity")));
-                    var newLoc = game.getEntityLocation(ent);
-                    if(newLoc instanceof Tile) {
-                        row = ((Tile)newLoc).getRow();
-                        column = ((Tile)newLoc).getColumn();
-                        moveCursor(column, row);
-                        out.print(ent.getProperties().get("character"));
-                    }
-                }
+                redrawTile((Tile) location);
             }
+
+            // if the entity moved to another tile...
+            if(e.hasProperty("column")) {
+                redrawTile(
+                        Integer.parseInt(e.getProperty("column")),
+                        Integer.parseInt(e.getProperty("row")));
+            }
+
+            out.flush();
         }
     }
 
@@ -77,7 +70,6 @@ public class ANSIClient extends Player implements Runnable {
 
         try {Thread.sleep(2000);} catch(Exception e) {}
         game.moveEntity(avatar, game.getBoard("foyer").getTile(3,3));
-
         try {Thread.sleep(2000);} catch(Exception e) {}
         // TODO: cleanup / remove from server
         logger.info("client complete, cleaning up");
@@ -92,6 +84,30 @@ public class ANSIClient extends Player implements Runnable {
     private void moveCursor(int col, int row) {
         out.println(CSI+row+";"+0+"f");
         out.print(CSI+col+"C");
+    }
+
+    private void redrawTile(Tile tile) {
+        redrawTile(tile.getColumn(), tile.getRow());
+    }
+
+    private void redrawTile(int col, int row) {
+        var location = game.getEntityLocation(avatar);
+        if(location == null || !(location instanceof Tile)) {
+            // avatar is not on a tile, thus not on a board that can be drawn. probably an error
+            return;
+        }
+        var board = ((Tile)location).getBoard();
+        var tile = board.getTile(col, row);
+        var entity = tile.getEntities()
+                .filter(ent -> ent.hasProperty("character"))
+                .findFirst();
+
+        moveCursor(col, row);
+        if(entity.isPresent()) {
+            out.print(entity.get().getProperty("character"));
+        } else {
+            out.print(tile.getProperty("character"));
+        }
     }
 
     private void drawEntities() {
