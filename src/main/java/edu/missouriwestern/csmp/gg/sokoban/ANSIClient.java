@@ -4,6 +4,7 @@ import edu.missouriwestern.csmp.gg.base.*;
 import edu.missouriwestern.csmp.gg.base.events.EntityMovedEvent;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
 // https://en.wikipedia.org/wiki/Miscellaneous_Symbols
 // https://en.wikipedia.org/wiki/ANSI_escape_code
 // https://en.wikipedia.org/wiki/Code_page_437
-
+// https://shtrom.ssji.net/skb/getc.html  // need to do this in Java
 public class ANSIClient extends Player implements Runnable {
 
     public static final String CSI = "\033[";
@@ -24,6 +25,7 @@ public class ANSIClient extends Player implements Runnable {
     private final Socket socket;
     private final ANSIGameServer server;
     private final PrintWriter out;
+    private final InputStreamReader in;
     private final Game game;
     private final PlayerAvatar avatar;
 
@@ -34,6 +36,7 @@ public class ANSIClient extends Player implements Runnable {
         this.game = server.getGame();
         this.avatar = new PlayerAvatar(game, this);
         this.out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+        this.in = new InputStreamReader(socket.getInputStream());
         game.registerListener(this);
     }
 
@@ -62,15 +65,33 @@ public class ANSIClient extends Player implements Runnable {
     public void run() {
         logger.info("starting client handler");
         // TODO: command loop
-
+out.print(CSI+"[?5h"); // turn off local echo
         avatar.reset();
 
-        // temporary test code
         drawBoard();
 
-        try {Thread.sleep(2000);} catch(Exception e) {}
-        game.moveEntity(avatar, game.getBoard("foyer").getTile(3,3));
-        try {Thread.sleep(2000);} catch(Exception e) {}
+        var connected = true;
+        while(connected) { // read and issue commands
+            try {
+                int key = in.read();
+                if(key == 'q') { // quit
+                    connected = false;
+                } else if(key == 'w') { // move up
+                    moveAvatar(Direction.NORTH);
+                } else if(key == 'a') { // move up
+                    moveAvatar(Direction.WEST);
+                } else if(key == 's') { // move up
+                    moveAvatar(Direction.SOUTH);
+                } else if(key == 'd') { // move up
+                    moveAvatar(Direction.EAST);
+                }
+            } catch(Exception e) {
+                logger.info("failed to read from client");
+                connected = false;
+            }
+        }
+
+
         // TODO: cleanup / remove from server
         logger.info("client complete, cleaning up");
         try {
@@ -108,6 +129,17 @@ public class ANSIClient extends Player implements Runnable {
         } else {
             out.print(tile.getProperty("character"));
         }
+    }
+
+
+    private void moveAvatar(Direction direction) {
+        var location = game.getEntityLocation(avatar);
+        if(!(location instanceof Tile)) return;
+        var tile = (Tile)location;
+        var board = tile.getBoard();
+        var destination = board.getAdjacentTile(tile, direction);
+        if(destination != null)
+            game.moveEntity(avatar, destination);
     }
 
     private void drawEntities() {
