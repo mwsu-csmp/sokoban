@@ -47,10 +47,10 @@
             <map>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="2"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="2"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -59,10 +59,10 @@
                 </entry>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="4"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="4"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -71,10 +71,10 @@
                 </entry>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="6"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="6"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -83,10 +83,10 @@
                 </entry>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="8"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="8"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -95,10 +95,10 @@
                 </entry>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="10"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="10"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -107,10 +107,10 @@
                 </entry>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="12"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="12"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -119,10 +119,10 @@
                 </entry>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="14"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="14"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -131,10 +131,10 @@
                 </entry>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="16"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="16"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -143,10 +143,10 @@
                 </entry>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="18"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="18"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -155,10 +155,10 @@
                 </entry>
                 <entry>
                     <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="20"/>
-                            <constructor-arg index="2" value="1"/>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="20"/>
+                            <constructor-arg index="1" value="1"/>
                         </bean>
                     </key>
                     <map>
@@ -197,126 +197,6 @@
         </constructor-arg>
         <constructor-arg index="5">
             <map>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="2"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle1"/>
-                    </map>
-                </entry>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="4"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle2"/>
-                    </map>
-                </entry>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="6"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle3"/>
-                    </map>
-                </entry>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="8"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle4"/>
-                    </map>
-                </entry>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="10"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle5"/>
-                    </map>
-                </entry>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="12"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle6"/>
-                    </map>
-                </entry>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="14"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle7"/>
-                    </map>
-                </entry>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="16"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle8"/>
-                    </map>
-                </entry>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="18"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle9"/>
-                    </map>
-                </entry>
-                <entry>
-                    <key>
-                        <bean class="edu.missouriwestern.csmp.gg.base.Location">
-                            <constructor-arg index="0"><null/></constructor-arg>
-                            <constructor-arg index="1" value="20"/>
-                            <constructor-arg index="2" value="1"/>
-                        </bean>
-                    </key>
-                    <map>
-                        <entry key="portal-destination-board" value="puzzle10"/>
-                    </map>
-                </entry>
             </map>
         </constructor-arg>
     </bean>
