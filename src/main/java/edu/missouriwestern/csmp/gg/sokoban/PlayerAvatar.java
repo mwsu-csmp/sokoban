@@ -1,20 +1,41 @@
 package edu.missouriwestern.csmp.gg.sokoban;
 
 import edu.missouriwestern.csmp.gg.base.*;
+import edu.missouriwestern.csmp.gg.base.events.CommandEvent;
 import edu.missouriwestern.csmp.gg.base.events.GameStartEvent;
 
 import java.util.Map;
 
-public class PlayerAvatar extends Entity {
+public class PlayerAvatar extends Entity implements EventListener {
+
+    private final Player player;
 
     public PlayerAvatar(Game game, Player player) {
         super(game, Map.of("sprites", "sokoban-player",
                 "character", "☺",
                 "description", "a heroic sokobon player"));
+        this.player = player;
     }
 
+    @Override
     public void accept(Event event) {
         if(event instanceof GameStartEvent) reset(); // move to spawn point at start of game
+        if(event instanceof CommandEvent) {
+            if(event.getProperty("player").equals(player.getID())) {
+                switch(event.getProperty("command")) {
+                    case "MOVE":
+                        var location = getGame().getEntityLocation(this);
+                        if(!(location instanceof Tile)) return;
+                        var tile = (Tile)location;
+                        var board = tile.getBoard();
+                        var destination = board.getAdjacentTile(tile,
+                                Direction.valueOf(event.getProperty("parameter")));
+                        if(destination != null)
+                            getGame().moveEntity(this, destination);
+                        break;
+                }
+            }
+        }
     }
 
     public void reset() {

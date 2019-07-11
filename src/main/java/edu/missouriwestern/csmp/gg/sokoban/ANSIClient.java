@@ -1,6 +1,7 @@
 package edu.missouriwestern.csmp.gg.sokoban;
 
 import edu.missouriwestern.csmp.gg.base.*;
+import edu.missouriwestern.csmp.gg.base.events.CommandEvent;
 import edu.missouriwestern.csmp.gg.base.events.EntityMovedEvent;
 
 import java.io.IOException;
@@ -8,7 +9,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 // useful stuff:
 // https://en.wikipedia.org/wiki/Miscellaneous_Symbols
@@ -37,35 +41,12 @@ public class ANSIClient extends Player implements Runnable {
         this.avatar = new PlayerAvatar(game, this);
         this.out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
         this.in = new InputStreamReader(socket.getInputStream());
-        game.registerListener(this);
     }
 
-    @Override
-    public void accept(Event e) {
-        if(e instanceof EntityMovedEvent) {
-            var location = game.getEntityLocation(avatar);
-
-            // if the entity moved away from a tile...
-            if(location != null && (location instanceof Tile)) {
-                redrawTile((Tile) location);
-            }
-
-            // if the entity moved to another tile...
-            if(e.hasProperty("column")) {
-                redrawTile(
-                        Integer.parseInt(e.getProperty("column")),
-                        Integer.parseInt(e.getProperty("row")));
-            }
-
-            out.flush();
-        }
-    }
 
     @Override
     public void run() {
         logger.info("starting client handler");
-        // TODO: command loop
-out.print(CSI+"[?5h"); // turn off local echo
         avatar.reset();
 
         drawBoard();
@@ -77,13 +58,13 @@ out.print(CSI+"[?5h"); // turn off local echo
                 if(key == 'q') { // quit
                     connected = false;
                 } else if(key == 'w') { // move up
-                    moveAvatar(Direction.NORTH);
-                } else if(key == 'a') { // move up
-                    moveAvatar(Direction.WEST);
-                } else if(key == 's') { // move up
-                    moveAvatar(Direction.SOUTH);
-                } else if(key == 'd') { // move up
-                    moveAvatar(Direction.EAST);
+                    issueCommand("MOVE", "NORTH");
+                } else if(key == 'a') { // move left
+                    issueCommand("MOVE", "WEST");
+                } else if(key == 's') { // move down
+                    issueCommand("MOVE", "SOUTH");
+                } else if(key == 'd') { // move right
+                    issueCommand("MOVE", "EAST");
                 }
             } catch(Exception e) {
                 logger.info("failed to read from client");
@@ -100,6 +81,21 @@ out.print(CSI+"[?5h"); // turn off local echo
             logger.info("failed to close client connection: " + e);
         }
         server.removeClient(this);
+    }
+
+    @Override
+    public void accept(Event event) {
+        if(event instanceof EntityMovedEvent) {
+            var moveEvent = (EntityMovedEvent)event;
+            var entity = game.getEntity(Integer.parseInt(moveEvent.getProperty("entity")));
+            var newLocation = game.getEntityLocation(entity);
+            if(newLocation instanceof Tile)
+                redrawTile((Tile)newLocation);
+            if(moveEvent.hasProperty("column")) {
+                redrawTile(Integer.parseInt(moveEvent.getProperty("column")),
+                        Integer.parseInt(moveEvent.getProperty("row")));
+            }
+        }
     }
 
     private void moveCursor(int col, int row) {
@@ -129,17 +125,8 @@ out.print(CSI+"[?5h"); // turn off local echo
         } else {
             out.print(tile.getProperty("character"));
         }
-    }
-
-
-    private void moveAvatar(Direction direction) {
-        var location = game.getEntityLocation(avatar);
-        if(!(location instanceof Tile)) return;
-        var tile = (Tile)location;
-        var board = tile.getBoard();
-        var destination = board.getAdjacentTile(tile, direction);
-        if(destination != null)
-            game.moveEntity(avatar, destination);
+        moveCursor(board.getWidth(), board.getHeight());
+        out.flush();
     }
 
     private void drawEntities() {
