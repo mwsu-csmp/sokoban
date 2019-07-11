@@ -36,11 +36,15 @@ public class ANSIClient extends Player implements Runnable {
         this.socket = socket;
         this.server = server;
         this.game = server.getGame();
+
+
+
         this.avatar = new PlayerAvatar(game, this);
         this.out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
         this.in = new InputStreamReader(socket.getInputStream());
     }
 
+    public PlayerAvatar getAvatar() { return avatar; }
 
     @Override
     public void run() {
@@ -50,6 +54,7 @@ public class ANSIClient extends Player implements Runnable {
         drawBoard();
 
         var connected = true;
+        var lastDirection = "NORTH"; // used to determine direction for interaction command
         while(connected) { // read and issue commands
             try {
                 int key = in.read();
@@ -57,14 +62,20 @@ public class ANSIClient extends Player implements Runnable {
                     connected = false;
                 } else if(key == 'w') { // move up
                     issueCommand("MOVE", "NORTH");
+                    lastDirection = "NORTH";
                 } else if(key == 'a') { // move left
                     issueCommand("MOVE", "WEST");
+                    lastDirection = "WEST";
                 } else if(key == 's') { // move down
                     issueCommand("MOVE", "SOUTH");
+                    lastDirection = "SOUTH";
                 } else if(key == 'd') { // move right
                     issueCommand("MOVE", "EAST");
+                    lastDirection = "EAST";
                 } else if(key =='r') { // attempt to reset puzzle
                     issueCommand("RESET", "");
+                } else if(key =='i') { // attempt to interact with entity in adjacent square
+                    issueCommand("INTERACT", lastDirection);
                 }
             } catch(Exception e) {
                 logger.info("failed to read from client");
@@ -109,7 +120,26 @@ public class ANSIClient extends Player implements Runnable {
             if(tsue.getProperty("board").equals(currentBoard.getName()))
                 redrawTile(Integer.parseInt(tsue.getProperty("column")),
                         Integer.parseInt(tsue.getProperty("row")));
+        } else if(event instanceof SpeechEvent) {
+            var se = (SpeechEvent)event;
+            if(se.getBoard() == currentBoard) {
+                // someone on our board is talking... listen to them
+                var message = " said \""+se.getMessage()+"\"";
+                // prepend entity description if possible
+                if(se.getEntity().hasProperty("description")) {
+                    message = se.getEntity().getProperty("description") + message;
+                } else {
+                    message = se.getEntity().getID() + message;
+                }
+                printMessage(message);
+            }
         }
+    }
+
+    private void printMessage(String message) {
+        moveCursor(0, currentBoard.getHeight()+2);
+        out.println(CSI+"2K"+message);
+        out.flush();
     }
 
     private void moveCursor(int col, int row) {
