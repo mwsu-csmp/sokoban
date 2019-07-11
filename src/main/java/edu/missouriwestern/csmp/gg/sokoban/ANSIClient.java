@@ -1,7 +1,6 @@
 package edu.missouriwestern.csmp.gg.sokoban;
 
 import edu.missouriwestern.csmp.gg.base.*;
-import edu.missouriwestern.csmp.gg.base.events.CommandEvent;
 import edu.missouriwestern.csmp.gg.base.events.EntityMovedEvent;
 
 import java.io.IOException;
@@ -9,10 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 // useful stuff:
 // https://en.wikipedia.org/wiki/Miscellaneous_Symbols
@@ -32,6 +28,7 @@ public class ANSIClient extends Player implements Runnable {
     private final InputStreamReader in;
     private final Game game;
     private final PlayerAvatar avatar;
+    private Board currentBoard = null;
 
     public ANSIClient(ANSIGameServer server, Socket socket, String playerId) throws IOException {
         super(playerId, server.getGame());
@@ -65,6 +62,8 @@ public class ANSIClient extends Player implements Runnable {
                     issueCommand("MOVE", "SOUTH");
                 } else if(key == 'd') { // move right
                     issueCommand("MOVE", "EAST");
+                } else if(key =='r') { // attempt to reset puzzle
+                    issueCommand("RESET", "");
                 }
             } catch(Exception e) {
                 logger.info("failed to read from client");
@@ -89,11 +88,20 @@ public class ANSIClient extends Player implements Runnable {
             var moveEvent = (EntityMovedEvent)event;
             var entity = game.getEntity(Integer.parseInt(moveEvent.getProperty("entity")));
             var newLocation = game.getEntityLocation(entity);
-            if(newLocation instanceof Tile)
-                redrawTile((Tile)newLocation);
-            if(moveEvent.hasProperty("column")) {
-                redrawTile(Integer.parseInt(moveEvent.getProperty("column")),
-                        Integer.parseInt(moveEvent.getProperty("row")));
+
+            if(entity == avatar &&  // if the player moved to a new board...
+                    newLocation instanceof Tile &&
+                    ((Tile)newLocation).getBoard() != currentBoard) {
+                currentBoard = ((Tile)newLocation).getBoard();
+                drawBoard();
+            } else {
+                if (newLocation instanceof Tile && // an entity moved on the currently drawn board...
+                        ((Tile)newLocation).getBoard() == currentBoard)
+                    redrawTile((Tile) newLocation);
+                if (moveEvent.hasProperty("column")) { // and moved from another location on the board...
+                    redrawTile(Integer.parseInt(moveEvent.getProperty("column")),
+                            Integer.parseInt(moveEvent.getProperty("row")));
+                }
             }
         }
     }

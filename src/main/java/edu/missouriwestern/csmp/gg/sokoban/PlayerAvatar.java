@@ -41,8 +41,38 @@ public class PlayerAvatar extends Entity implements EventListener {
                                     .count() > 0) {
                                 break;  // can't walk through boxes
                             }
+
+                            if(destination.hasProperty("portal-destination-board")) {
+                                destination = getGame()  // update destination to new board
+                                        .getBoard(destination.getProperty("portal-destination-board"))
+                                        .getTileStream()
+                                        .filter(t -> t.hasProperty("entering-entity-spawn"))
+                                        .findFirst().get();
+                            }
+
                             getGame().moveEntity(this, destination);
                         }
+                        break;
+                    case "RESET":
+                        location = getGame().getEntityLocation(this);
+                        if(!(location instanceof Tile)) return;
+                        tile = (Tile)location;
+                        board = tile.getBoard();
+
+                        // remove all boxes from board
+                        board.getTileStream()
+                                .filter(t -> t.getEntities()
+                                        .filter(ent -> ent.getType().equals("box"))
+                                        .findFirst().isPresent())
+                                .forEach(t ->
+                                        t.getEntities()
+                                                .filter(ent -> ent.getType().equals("box"))
+                                                .forEach(ent -> getGame().removeEntity(ent)));
+
+                        // add a box to each box spawn
+                        board.getTileStream()
+                                .filter(t -> t.getType().equals("box-spawn"))
+                                .forEach(t -> t.addEntity(new Box(getGame())));
                         break;
                 }
             }
