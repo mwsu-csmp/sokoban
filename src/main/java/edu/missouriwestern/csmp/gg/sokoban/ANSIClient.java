@@ -21,7 +21,7 @@ public class ANSIClient extends Player implements Runnable {
     public static final String CSI = "\033[";
     public static final String CLEAR_SCREEN = CSI+"2J"+CSI+"1;1H";
 
-    private static Logger logger = Logger.getLogger(SokobanGame.class.getCanonicalName());
+    private static Logger logger = Logger.getLogger(ANSIClient.class.getCanonicalName());
 
     private final Socket socket;
     private final ANSIGameServer server;

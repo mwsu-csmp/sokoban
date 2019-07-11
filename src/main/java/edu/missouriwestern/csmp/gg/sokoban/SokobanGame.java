@@ -1,10 +1,13 @@
 package edu.missouriwestern.csmp.gg.sokoban;
 
 import edu.missouriwestern.csmp.gg.base.Board;
+import edu.missouriwestern.csmp.gg.base.Entity;
 import edu.missouriwestern.csmp.gg.base.Game;
 import edu.missouriwestern.csmp.gg.base.events.GameStartEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -17,6 +20,18 @@ import java.util.stream.Collectors;
 public class SokobanGame extends Game {
 
     private static Logger logger = Logger.getLogger(SokobanGame.class.getCanonicalName());
+
+    @Autowired
+    private TaskExecutor taskExecutor;
+
+    @Override
+    public void addEntity(Entity ent) {
+        super.addEntity(ent);
+        if(ent instanceof Runnable) {
+            logger.info("starting thread for executable entity " + ent.getID());
+            taskExecutor.execute((Runnable)ent);
+        }
+    }
 
     /** loads boards at start of server */
     @EventListener
