@@ -30,8 +30,19 @@ public class PlayerAvatar extends Entity implements EventListener {
                         var board = tile.getBoard();
                         var destination = board.getAdjacentTile(tile,
                                 Direction.valueOf(event.getProperty("parameter")));
-                        if(destination != null)
+                        if(destination != null) {
+                            if(destination.hasProperty("impassable") &&
+                               !destination.getProperty("impassable").equals("false"))
+                                break;  // can't walk on to an impassable tile
+
+                            if(destination.getEntities()
+                                    .filter(ent -> ent.hasProperty("impassable") &&
+                                                   !ent.getProperty("impassable").equals("false"))
+                                    .count() > 0) {
+                                break;  // can't walk through boxes
+                            }
                             getGame().moveEntity(this, destination);
+                        }
                         break;
                 }
             }
