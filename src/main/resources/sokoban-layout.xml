@@ -197,6 +197,18 @@
         </constructor-arg>
         <constructor-arg index="5">
             <map>
+                <entry>
+                    <key>
+                        <bean class="net.sourcedestination.funcles.tuple.Pair"
+                              factory-method="makePair">
+                            <constructor-arg index="0" value="8"/>
+                            <constructor-arg index="1" value="1"/>
+                        </bean>
+                    </key>
+                    <map>
+                        <entry key="portal-destination-board" value="foyer"/>
+                    </map>
+                </entry>
             </map>
         </constructor-arg>
     </bean>
