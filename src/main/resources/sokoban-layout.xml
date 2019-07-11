@@ -13,7 +13,7 @@
         <entry value="player-spawn" key="*"/>
         <entry value="box-spawn" key="B"/>
         <entry value="goal" key="X"/>
-        <entry value="goal-barrier" key="!"/>
+        <entry value="goal-barrier" key="⚐"/>
     </util:map>
 
     <bean id="foyer-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
@@ -188,7 +188,7 @@
                         <entry key="impassable" value="true"/>
                     </map>
                 </entry>
-                <entry key="!">
+                <entry key="⚐">
                     <map>
                         <entry key="impassable" value="true"/>
                     </map>

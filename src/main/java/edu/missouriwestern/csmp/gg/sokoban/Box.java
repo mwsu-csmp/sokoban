@@ -47,13 +47,13 @@ public class Box extends Entity implements EventListener {
                         getGame().accept(new TileStateUpdateEvent(tile));
 
                         // check for unoccupied goal tile
-                        if(tile.getBoard()
+                        if(!tile.getBoard()// make sure that for all goal tiles, none exist without boxes on them
                                 .getTileStream()
-                                .filter(t -> t.getType().equals("goal"))
-                                .filter(t -> t.getEntities()
+                                .filter(t -> t.getType().equals("goal"))// look for goal tiles
+                                .filter(t -> t.getEntities()  // without box entities
                                                 .filter(ent -> ent.getType().equals("box"))
-                                                .findFirst().isPresent())
-                                .count() == 0) {
+                                                .count() == 0)
+                                .findFirst().isPresent()) {
                             // goal reached, let user through the door
                             tile.getBoard()
                                     .getTileStream()
