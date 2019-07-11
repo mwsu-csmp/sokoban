@@ -36,9 +36,6 @@ public class ANSIClient extends Player implements Runnable {
         this.socket = socket;
         this.server = server;
         this.game = server.getGame();
-
-
-
         this.avatar = new PlayerAvatar(game, this);
         this.out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
         this.in = new InputStreamReader(socket.getInputStream());
@@ -49,6 +46,9 @@ public class ANSIClient extends Player implements Runnable {
     @Override
     public void run() {
         logger.info("starting client handler");
+
+
+
         avatar.reset();
 
         drawBoard();
@@ -83,9 +83,9 @@ public class ANSIClient extends Player implements Runnable {
             }
         }
 
-
-        // TODO: cleanup / remove from server
         logger.info("client complete, cleaning up");
+        game.removeEntity(avatar);
+        game.removePlayer(this);
         try {
             socket.close();
         } catch(IOException e) {

@@ -6,9 +6,11 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -56,7 +58,17 @@ public class ANSIGameServer {
 
     public void processLogin(Socket socket) throws IOException {
         // TODO: manage login or login token
-        var client =  new ANSIClient(this, socket, "joey"); // TODO: remove / replace
+        var out = new PrintWriter(socket.getOutputStream());
+        var in = new Scanner(socket.getInputStream());
+        out.print("What is your name: ");
+        out.flush();
+        var name = in.nextLine().trim();
+        while(game.getPlayer(name) != null) {
+            out.print("That name is taken, try again: ");
+            out.flush();
+            name = in.nextLine().trim();
+        }
+        var client =  new ANSIClient(this, socket, name);
         clients.add(client);
         taskExecutor.execute(client);
     }
