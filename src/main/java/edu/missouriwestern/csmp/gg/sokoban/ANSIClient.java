@@ -99,6 +99,7 @@ public class ANSIClient extends Player implements Runnable {
     }
 
     private void moveCursor(int col, int row) {
+        row++; col++;
         out.println(CSI+row+";"+0+"f");
         out.print(CSI+col+"C");
     }
@@ -158,7 +159,9 @@ public class ANSIClient extends Player implements Runnable {
         }
         var board = ((Tile)location).getBoard();
         out.print(CLEAR_SCREEN);
-        out.print(board.getTileMap());
+        out.print("\n");
+        for(var row : board.getTileMap().split("\n"))
+            out.print(" " + row+"\n");
         out.flush();
         drawEntities();
         moveCursor(board.getWidth(), board.getHeight());
