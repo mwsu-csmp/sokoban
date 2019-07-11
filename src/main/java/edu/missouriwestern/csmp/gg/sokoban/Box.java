@@ -1,10 +1,8 @@
 package edu.missouriwestern.csmp.gg.sokoban;
 
-import edu.missouriwestern.csmp.gg.base.Entity;
-import edu.missouriwestern.csmp.gg.base.Event;
-import edu.missouriwestern.csmp.gg.base.EventListener;
-import edu.missouriwestern.csmp.gg.base.Game;
+import edu.missouriwestern.csmp.gg.base.*;
 import edu.missouriwestern.csmp.gg.base.events.EntityMovedEvent;
+import edu.missouriwestern.csmp.gg.base.events.TileStateUpdateEvent;
 
 import java.util.Map;
 
@@ -39,7 +37,40 @@ public class Box extends Entity implements EventListener {
             }
         } else if(event instanceof EntityMovedEvent &&
             ((EntityMovedEvent)event).getEntity() == this) {
+            var location = getGame().getEntityLocation(this);
             // we just moved. Check to see if we've reached a goal condition
+            if(location instanceof Tile) {
+                var tile = (Tile)location;
+                    if(tile.getType().equals("goal")) {
+                        this.setProperty("character", "☑");
+                        this.setProperty("sprites", "box-in-goal");
+                        getGame().accept(new TileStateUpdateEvent(tile));
+
+                        // check for unoccupied goal tile
+                        if(tile.getBoard()
+                                .getTileStream()
+                                .filter(t -> t.getType().equals("goal"))
+                                .filter(t -> t.getEntities()
+                                                .filter(ent -> ent.getType().equals("box"))
+                                                .findFirst().isPresent())
+                                .count() == 0) {
+                            // goal reached, let user through the door
+                            tile.getBoard()
+                                    .getTileStream()
+                                    .filter(t -> t.getType().equals("goal-barrier"))
+                                    .forEach(t -> {
+                                        t.setProperty("impassable", "false");
+                                        t.setProperty("character", " ");
+                                        getGame().accept(new TileStateUpdateEvent(t));
+                                    });
+                        }
+
+                    } else { // reset icon to normal
+                        this.setProperty("character", "☒");
+                        this.setProperty("sprites", "box-normal");
+                        getGame().accept(new TileStateUpdateEvent(tile));
+                    }
+            }
 
         }
     }

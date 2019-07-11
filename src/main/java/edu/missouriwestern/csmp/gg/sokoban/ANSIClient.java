@@ -2,6 +2,7 @@ package edu.missouriwestern.csmp.gg.sokoban;
 
 import edu.missouriwestern.csmp.gg.base.*;
 import edu.missouriwestern.csmp.gg.base.events.EntityMovedEvent;
+import edu.missouriwestern.csmp.gg.base.events.TileStateUpdateEvent;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -103,6 +104,11 @@ public class ANSIClient extends Player implements Runnable {
                             Integer.parseInt(moveEvent.getProperty("row")));
                 }
             }
+        } else if(event instanceof TileStateUpdateEvent) {
+            var tsue = (TileStateUpdateEvent)event;
+            if(tsue.getProperty("board").equals(currentBoard.getName()))
+                redrawTile(Integer.parseInt(tsue.getProperty("column")),
+                        Integer.parseInt(tsue.getProperty("row")));
         }
     }
 
