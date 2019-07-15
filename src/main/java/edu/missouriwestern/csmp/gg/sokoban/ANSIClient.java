@@ -160,6 +160,9 @@ public class ANSIClient extends Player implements Runnable {
         }
         var board = ((Tile)location).getBoard();
         var tile = board.getTile(col, row);
+        if(tile == null) {
+            return;  // throw error here?
+        }
         var entity = tile.getEntities()
                 .filter(ent -> ent.hasProperty("character"))
                 .findFirst();
