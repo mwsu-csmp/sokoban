@@ -3,14 +3,11 @@ package edu.missouriwestern.csmp.gg.sokoban;
 import edu.missouriwestern.csmp.gg.base.*;
 import edu.missouriwestern.csmp.gg.base.events.CommandEvent;
 import edu.missouriwestern.csmp.gg.base.events.GameStartEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import edu.missouriwestern.csmp.gg.base.events.SpeechEvent;
 
 import java.util.Map;
 import java.util.logging.Logger;
 
-@Component("guide")
 public class Guide extends Entity implements EventListener, Runnable {
 
     private static Logger logger = Logger.getLogger(Guide.class.getCanonicalName());
@@ -18,8 +15,7 @@ public class Guide extends Entity implements EventListener, Runnable {
             "I'll guide you around!",
             "solve puzzles for a prize!",
             "each door above leads to a puzzle!"};
-    @Autowired
-    public Guide(@Qualifier("game") Game game) {
+    public Guide(Game game) {
         super(game, Map.of("sprites", "sokoban-guide",
                            "character", "?",
                             "description", "a friendly guide"));
@@ -32,8 +28,8 @@ public class Guide extends Entity implements EventListener, Runnable {
             var command = (CommandEvent)event;
             if(command.getProperty("command").equals("INTERACT")) {
                 var player = getGame().getPlayer(command.getProperty("player"));
-                if(player instanceof ANSIClient) { // TODO: this cast sucks, shouldn't be tied to client, rethink approach
-                    var avatar = ((ANSIClient)player).getAvatar();
+                if(player instanceof SokobanPlayer) {
+                    var avatar = ((SokobanPlayer)player);
                     var avatarLocation = getGame().getEntityLocation(avatar);
                     if(avatarLocation instanceof Tile) {
                         var tile = (Tile)avatarLocation;

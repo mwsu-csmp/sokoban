@@ -1,56 +1,20 @@
 package edu.missouriwestern.csmp.gg.sokoban;
 
-import edu.missouriwestern.csmp.gg.base.Board;
-import edu.missouriwestern.csmp.gg.base.Entity;
+import edu.missouriwestern.csmp.gg.base.Agent;
 import edu.missouriwestern.csmp.gg.base.Game;
-import edu.missouriwestern.csmp.gg.base.events.GameStartEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-@Component("game")
 public class SokobanGame extends Game {
 
-    private static Logger logger = Logger.getLogger(SokobanGame.class.getCanonicalName());
-
-    @Autowired
-    private TaskExecutor taskExecutor;
-
     @Override
-    public void addEntity(Entity ent) {
-        super.addEntity(ent);
-        if(ent instanceof Runnable) {
-            logger.info("starting thread for executable entity " + ent.getID());
-            taskExecutor.execute((Runnable)ent);
+    public Agent getAgent(String id, String role) {
+        if(getPlayer(id) != null) return getPlayer(id);
+        if(role.equals("player")) {
+            var agent = new SokobanPlayer(id, this);
+            addAgent(agent);
+            return agent;
         }
+        throw new IllegalArgumentException("no agent with id " + id +
+                " and role " + role + " allowed.");
     }
 
-    /** loads boards at start of server */
-    @EventListener
-    public void handleContextRefresh(ContextRefreshedEvent event) {
-        var maps = event.getApplicationContext().getBeansOfType(Board.class);
-        for(var mapName : maps.keySet()) {
-            this.addBoard(mapName, maps.get(mapName));
-            logger.info("loading map " + mapName + ": \n" + maps.get(mapName));
-        }
-        registerListener(new EventLogger());  // log all events
-        accept(new GameStartEvent(this));     // indicate game is starting
-    }
-
-    /** loads a text file resource as a string */
-    public static String loadMap(String mapFileName) throws IOException {
-        var mapString = new BufferedReader(new InputStreamReader(
-                SokobanGame.class.getClassLoader()
-                        .getResourceAsStream(mapFileName)))
-                .lines().collect(Collectors.joining("\n"));
-        return mapString;
-    }
 }

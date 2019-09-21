@@ -6,22 +6,22 @@ import edu.missouriwestern.csmp.gg.base.events.GameStartEvent;
 
 import java.util.Map;
 
-public class PlayerAvatar extends Entity implements EventListener {
+public class SokobanPlayer extends Entity implements Agent {
 
-    private final Player player;
+    private final String id;
 
-    public PlayerAvatar(Game game, Player player) {
-        super(game, Map.of("sprites", "sokoban-player",
+    public SokobanPlayer(String id, Game game) {
+        super(game, Map.of("sprites", "player",
                 "character", "☺",
                 "description", "a heroic sokobon player"));
-        this.player = player;
+        this.id = id;
     }
 
     @Override
     public void accept(Event event) {
         if(event instanceof GameStartEvent) reset(); // move to spawn point at start of game
         if(event instanceof CommandEvent) {
-            if(event.getProperty("player").equals(player.getID())) {
+            if(event.getProperty("player").equals(getAgentID())) {
                 switch(event.getProperty("command")) {
                     case "MOVE":
                         var location = getGame().getEntityLocation(this);
@@ -32,12 +32,12 @@ public class PlayerAvatar extends Entity implements EventListener {
                         var destination = board.getAdjacentTile(tile, direction);
                         if(destination != null) {
                             if(destination.hasProperty("impassable") &&
-                               !destination.getProperty("impassable").equals("false"))
+                                    !destination.getProperty("impassable").equals("false"))
                                 break;  // can't walk on to an impassable tile
 
                             if(destination.getEntities()
                                     .filter(ent -> ent.hasProperty("impassable") &&
-                                                   !ent.getProperty("impassable").equals("false"))
+                                            !ent.getProperty("impassable").equals("false"))
                                     .count() > 0) {
                                 // can't walk through boxes
                                 // but we can push them
@@ -90,11 +90,16 @@ public class PlayerAvatar extends Entity implements EventListener {
         getGame().moveEntity(this, location);
     }
 
+    @Override
     public String getType() {
-        return "player-avatar";
+        return "player";
     }
 
-    public String toString() {
-        return super.toString();
+    @Override
+    public String getRole() {
+        return getType();
     }
+
+    @Override
+    public String getAgentID() { return id; }
 }

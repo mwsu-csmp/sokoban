@@ -16,37 +16,39 @@
         <entry value="goal-barrier" key="⚐"/>
     </util:map>
 
-    <bean id="foyer-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="game" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame"/>
+
+    <bean id="foyer-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="foyer-map.txt"/>
     </bean>
-    <bean id="puzzle1-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle1-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle1-map.txt"/>
     </bean>
-    <bean id="puzzle2-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle2-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle2-map.txt"/>
     </bean>
-    <bean id="puzzle3-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle3-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle3-map.txt"/>
     </bean>
-    <bean id="puzzle4-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle4-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle4-map.txt"/>
     </bean>
-    <bean id="puzzle5-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle5-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle5-map.txt"/>
     </bean>
-    <bean id="puzzle6-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle6-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle6-map.txt"/>
     </bean>
-    <bean id="puzzle7-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle7-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle7-map.txt"/>
     </bean>
-    <bean id="puzzle8-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle8-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle8-map.txt"/>
     </bean>
-    <bean id="puzzle9-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle9-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle9-map.txt"/>
     </bean>
-    <bean id="puzzle10-map" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame" factory-method="loadMap">
+    <bean id="puzzle10-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
         <constructor-arg value="puzzle10-map.txt"/>
     </bean>
 
