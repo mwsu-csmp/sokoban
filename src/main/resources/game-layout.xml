@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+                           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="game" class="edu.missouriwestern.csmp.gg.sokoban.SokobanGame">
+        <constructor-arg ref="data-store"/>
+        <constructor-arg ref="event-propagator"/>
+        <constructor-arg ref="event-source"/>
+        <constructor-arg value="foyer"/>
+    </bean>
+
+    <util:map id="tile-types" map-class="java.util.HashMap">
+        <entry value="wall" key="#"/>
+        <entry value="door" key="@"/>
+        <entry value="floor" key=" "/>
+        <entry value="guide-spawn" key="%"/>
+        <entry value="player-spawn" key="*"/>
+        <entry value="box-spawn" key="B"/>
+        <entry value="goal" key="X"/>
+        <entry value="goal-barrier" key="⚐"/>
+    </util:map>
+
+    <bean id="foyer-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
+        <constructor-arg value="foyer-map.txt"/>
+    </bean>
+    <bean id="puzzle1-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
+        <constructor-arg value="puzzle1-map.txt"/>
+    </bean>
+    <bean id="puzzle2-map" class="edu.missouriwestern.csmp.gg.base.Board" factory-method="loadMap">
+        <constructor-arg value="puzzle2-map.txt"/>
+    </bean>
+
+    <bean id="foyer" class="edu.missouriwestern.csmp.gg.base.Board">
+        <constructor-arg index="0" ref="tile-types">
+        </constructor-arg>
+        <constructor-arg index="1" ref="game"/>
+        <constructor-arg index="2" value="foyer"/>
+        <constructor-arg index="3" ref="foyer-map"/>
+        <constructor-arg index="4">
+            <map>
+            </map>
+        </constructor-arg>
+        <constructor-arg index="5">
+            <map>
+            </map>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+                <bean id="foyer-to-puzzle1-door" class="edu.missouriwestern.csmp.gg.sokoban.tiles.Door"
+                      lazy-init="true">
+                    <constructor-arg name="column" value="1"/>
+                    <constructor-arg name="row" value="0"/>
+                    <constructor-arg name="destination" value="puzzle1"/>
+                    <constructor-arg name="destColumn" value="6"/>
+                    <constructor-arg name="destRow" value="2"/>
+                </bean>
+                <bean id="foyer-to-puzzle2-door" class="edu.missouriwestern.csmp.gg.sokoban.tiles.Door">
+                    <constructor-arg name="column" value="3"/>
+                    <constructor-arg name="row" value="0"/>
+                    <constructor-arg name="destination" value="puzzle1"/>
+                    <constructor-arg name="destColumn" value="6"/>
+                    <constructor-arg name="destRow" value="2"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+    <bean id="puzzle1" class="edu.missouriwestern.csmp.gg.base.Board">
+        <constructor-arg index="0" ref="tile-types"/>
+        <constructor-arg index="1" ref="game"/>
+        <constructor-arg index="2" value="puzzle1"/>
+        <constructor-arg index="3" ref="puzzle1-map"/>
+        <constructor-arg index="4">
+            <map>
+            </map>
+        </constructor-arg>
+        <constructor-arg index="5">
+            <map>
+            </map>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+            <bean id="puzzle1-escape-door" class="edu.missouriwestern.csmp.gg.sokoban.tiles.Door">
+                <constructor-arg name="column" value="8"/>
+                <constructor-arg name="row" value="1"/>
+                <constructor-arg name="destination" value="foyer"/>
+                <constructor-arg name="destColumn" value="1"/>
+                <constructor-arg name="destRow" value="0"/>
+            </bean>
+            <bean id="puzzle1-goal-door" class="edu.missouriwestern.csmp.gg.sokoban.tiles.Door">
+                <constructor-arg name="column" value="6"/>
+                <constructor-arg name="row" value="2"/>
+                <constructor-arg name="destination" value="foyer"/>
+                <constructor-arg name="destColumn" value="1"/>
+                <constructor-arg name="destRow" value="0"/>
+            </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="puzzle2" class="edu.missouriwestern.csmp.gg.base.Board">
+        <constructor-arg index="0" ref="tile-types"/>
+        <constructor-arg index="1" ref="game"/>
+        <constructor-arg index="2" value="puzzle2"/>
+        <constructor-arg index="3" ref="puzzle2-map"/>
+        <constructor-arg index="4">
+            <map>
+            </map>
+        </constructor-arg>
+        <constructor-arg index="5">
+            <map>
+            </map>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+            <bean id="puzzle2-escape-door" class="edu.missouriwestern.csmp.gg.sokoban.tiles.Door">
+                <constructor-arg name="column" value="8"/>
+                <constructor-arg name="row" value="1"/>
+                <constructor-arg name="destination" value="foyer"/>
+                <constructor-arg name="destColumn" value="1"/>
+                <constructor-arg name="destRow" value="0"/>
+            </bean>
+            <bean id="puzzle2-goal-door" class="edu.missouriwestern.csmp.gg.sokoban.tiles.Door">
+                <constructor-arg name="column" value="6"/>
+                <constructor-arg name="row" value="2"/>
+                <constructor-arg name="destination" value="foyer"/>
+                <constructor-arg name="destColumn" value="1"/>
+                <constructor-arg name="destRow" value="0"/>
+            </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>
