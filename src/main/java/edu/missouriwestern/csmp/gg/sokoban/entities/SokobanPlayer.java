@@ -11,6 +11,7 @@ public class SokobanPlayer extends Entity implements Agent {
     public SokobanPlayer(String id, Game game) {
         super(game, Map.of("sprites", "player",
                 "character", "☺",
+                "player", id,
                 "description", "a heroic sokobon player"));
         this.id = id;
     }
