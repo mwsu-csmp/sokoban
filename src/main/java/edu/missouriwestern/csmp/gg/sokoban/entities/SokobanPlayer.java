@@ -22,7 +22,7 @@ public class SokobanPlayer extends Entity implements Agent {
                 reset();
                 break;
             case "command":
-                if (event.getProperty("player").equals(getAgentID())) {
+                if (event.getProperty("username").equals(getAgentID())) {
                     switch (event.getProperty("command")) {
                         case "MOVE":
                             var location = getGame().getEntityLocation(this);

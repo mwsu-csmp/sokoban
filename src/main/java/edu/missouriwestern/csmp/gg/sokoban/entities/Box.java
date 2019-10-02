@@ -56,7 +56,7 @@ public class Box extends Entity implements EventListener {
                 }
                 break;
             case "command":
-                var player = getGame().getAgent(event.getProperty("agent"));
+                var player = getGame().getAgent(event.getProperty("username"));
                 // if a player resets in our room, and we're not on a box spawn...
                 if(player instanceof SokobanPlayer &&
                         event.getProperty("command").equals("reset") &&

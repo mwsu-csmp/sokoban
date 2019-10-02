@@ -32,7 +32,7 @@ public class Guide extends Entity implements EventListener {
                 break;
             case "command": // see if someone wants you to talk to them
                 if (event.getProperty("command").equals("INTERACT")) {
-                    var player = getGame().getAgent(event.getProperty("player"));
+                    var player = getGame().getAgent(event.getProperty("username"));
                     if (player instanceof SokobanPlayer) {
                         var avatar = ((SokobanPlayer) player);
                         var avatarLocation = getGame().getEntityLocation(avatar);

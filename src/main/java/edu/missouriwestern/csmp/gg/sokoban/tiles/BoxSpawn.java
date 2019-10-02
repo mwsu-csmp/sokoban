@@ -22,7 +22,7 @@ public class BoxSpawn extends Tile implements EventListener {
     public void acceptEvent(Event event) {
         switch(event.getType()) {
             case "command":
-                var player = getGame().getAgent(event.getProperty("agent"));
+                var player = getGame().getAgent(event.getProperty("username"));
                 if(player instanceof SokobanPlayer &&
                         event.getProperty("command").equals("reset")) { // spawn a box
                     var playerLocation = getGame().getEntityLocation((SokobanPlayer)player);
