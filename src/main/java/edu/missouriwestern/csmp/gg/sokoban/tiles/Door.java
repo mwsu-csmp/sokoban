@@ -17,7 +17,7 @@ public class Door extends Tile implements EventListener {
     private final int destRow;
 
     public Door(int column, int row, String destination, int destColumn, int destRow) {
-        super(column, row, "door",
+        super(column, row, "door", '@',
             Map.of("destination-board", destination,
                     "destination-row", ""+destRow,
                     "destination-column", ""+destColumn)
