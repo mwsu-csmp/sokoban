@@ -2,7 +2,6 @@ package edu.missouriwestern.csmp.gg.sokoban;
 
 import edu.missouriwestern.csmp.gg.base.*;
 import edu.missouriwestern.csmp.gg.sokoban.entities.SokobanPlayer;
-import edu.missouriwestern.csmp.gg.sokoban.tiles.PlayerSpawn;
 
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -24,7 +23,7 @@ public class SokobanGame extends Game {
     public void addBoard(Board board) {
         logger.info("adding board " + board);
         var spawn = board.getTileStream()
-                .filter(tile -> tile instanceof PlayerSpawn)
+                .filter(tile -> tile.getType().equals("player-spawn"))
                 .findFirst();
         if (spawn.isPresent()) this.spawn = spawn.get();
 

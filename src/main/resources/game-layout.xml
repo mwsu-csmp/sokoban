@@ -17,7 +17,15 @@
 
     <util:map id="tile-generators" map-class="java.util.HashMap">
         <entry key="#">
-            <bean class="edu.missouriwestern.csmp.gg.sokoban.tiles.Wall" factory-method="getGenerator"/>
+            <bean class="edu.missouriwestern.csmp.gg.base.Tile" factory-method="getGenerator">
+                <constructor-arg name="character" value="#"/>
+                <constructor-arg name="type" value="wall"/>
+                <constructor-arg name="properties">
+                    <map>
+                        <entry key="impassable" value="true"/>
+                    </map>
+                </constructor-arg>
+            </bean>
         </entry>
         <entry key="⚐">
             <bean class="edu.missouriwestern.csmp.gg.sokoban.tiles.GoalBarrier" factory-method="getGenerator"/>
@@ -26,13 +34,37 @@
             <bean class="edu.missouriwestern.csmp.gg.sokoban.tiles.BoxSpawn" factory-method="getGenerator"/>
         </entry>
         <entry key=" ">
-            <bean class="edu.missouriwestern.csmp.gg.sokoban.tiles.Floor" factory-method="getGenerator"/>
+            <bean class="edu.missouriwestern.csmp.gg.base.Tile" factory-method="getGenerator">
+                <constructor-arg name="character" value=" "/>
+                <constructor-arg name="type" value="floor"/>
+                <constructor-arg name="properties">
+                    <map>
+                        <entry key="description" value="just a normal floor tile"/>
+                    </map>
+                </constructor-arg>
+            </bean>
         </entry>
         <entry key="*">
-            <bean class="edu.missouriwestern.csmp.gg.sokoban.tiles.PlayerSpawn" factory-method="getGenerator"/>
+            <bean class="edu.missouriwestern.csmp.gg.base.Tile" factory-method="getGenerator">
+                <constructor-arg name="character" value="*"/>
+                <constructor-arg name="type" value="player-spawn"/>
+                <constructor-arg name="properties">
+                    <map>
+                        <entry key="description" value="the starting point for players"/>
+                    </map>
+                </constructor-arg>
+            </bean>
         </entry>
-        <entry key="X">
-            <bean class="edu.missouriwestern.csmp.gg.sokoban.tiles.Goal" factory-method="getGenerator"/>
+        <entry key="G">
+            <bean class="edu.missouriwestern.csmp.gg.base.Tile" factory-method="getGenerator">
+                <constructor-arg name="character" value="G"/>
+                <constructor-arg name="type" value="goal"/>
+                <constructor-arg name="properties">
+                    <map>
+                        <entry key="description" value="push boxes here"/>
+                    </map>
+                </constructor-arg>
+            </bean>
         </entry>
     </util:map>
 
@@ -47,10 +79,6 @@
                     <constructor-arg name="name" value="foyer"/>
                     <constructor-arg name="charMap" ref="foyer-map"/>
                     <constructor-arg name="tileGenerators" ref="tile-generators"/>
-                    <constructor-arg name="tileProperties">
-                        <map>
-                        </map>
-                    </constructor-arg>
                     <constructor-arg name="initialTiles">
                         <list>
                             <bean id="foyer-to-puzzle1-door" class="edu.missouriwestern.csmp.gg.sokoban.tiles.Door"
@@ -76,10 +104,6 @@
                     <constructor-arg name="name" value="puzzle1"/>
                     <constructor-arg name="charMap" ref="puzzle1-map"/>
                     <constructor-arg name="tileGenerators" ref="tile-generators"/>
-                    <constructor-arg name="tileProperties">
-                        <map>
-                        </map>
-                    </constructor-arg>
                     <constructor-arg name="initialTiles">
                         <list>
                             <bean id="puzzle1-escape-door" class="edu.missouriwestern.csmp.gg.sokoban.tiles.Door">
@@ -104,10 +128,6 @@
                     <constructor-arg name="name" value="puzzle2"/>
                     <constructor-arg name="charMap" ref="puzzle2-map"/>
                     <constructor-arg name="tileGenerators" ref="tile-generators"/>
-                    <constructor-arg name="tileProperties">
-                        <map>
-                        </map>
-                    </constructor-arg>
                     <constructor-arg name="initialTiles">
                         <list>
                             <bean id="puzzle2-escape-door" class="edu.missouriwestern.csmp.gg.sokoban.tiles.Door">
